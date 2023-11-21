@@ -1,7 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 
 import "@nomiclabs/hardhat-ethers";
-import "@nomicfoundation/hardhat-etherscan";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-chai-matchers";
 
@@ -15,7 +14,7 @@ dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.19",
+    version: "0.8.21",
     settings: {
       optimizer: {
         enabled: true,
@@ -58,6 +57,7 @@ const config: HardhatUserConfig = {
     currency: "USD",
     coinmarketcap: process.env.COINMARKETCAP_API_KEY as string,
     token: "ETH",
+    // gasPrice: 30,
     gasPriceApi:
       "https://api.etherscan.io/api?module=proxy&action=eth_gasPrice",
   },

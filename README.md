@@ -6,26 +6,26 @@ We want to develop a bridge for our RWA tokens utilising the approach of mint an
 
 ## Constraints
 
-- Use at least 2 message passing protocols from {Axelar, Layerzero, Wormhole}.
-- Implement thresholds on destination bridge such that arbitrary thresholds can be set based on amounts, e.g., 100K bridge transfer needs 2 approvers (where a message delivered on destination chain by a message passing protocol is considered an approver, like Axelar).
-- Admin must have the ability to define arbitrary thresholds.
-- The bridge must have the ability to be paused if needed.
-- The bridge must support multiple RWA ERC-20 tokens.
-- The bridge must have a daily rate limit where no more tokens are minted if this limit is met.
-- There should be extensive tests for the bridge.
+X - Use at least 2 message passing protocols from {Axelar, Layerzero, Wormhole}.
+X - Implement thresholds on destination bridge such that arbitrary thresholds can be set based on amounts, e.g., 100K bridge transfer needs 2 approvers (where a message delivered on destination chain by a message passing protocol is considered an approver, like Axelar).
+X - Admin must have the ability to define arbitrary thresholds.
+X - The bridge must have the ability to be paused if needed.
+X - The bridge must support multiple RWA ERC-20 tokens.
+X - The bridge must have a daily rate limit where no more tokens are minted if this limit is met.
+X - There should be extensive tests for the bridge.
 
 ## Assumptions
 
-- Issuer can solely mint tokens.
-- RWA tokens are simple ERC20 tokens with mint and burn.
+X - Issuer can solely mint tokens.
+X - RWA tokens are simple ERC20 tokens with mint and burn.
 
 ## Nice to Have
 
-- Use all 3 message passing protocols.
-- Implement bucket level rate limiting based on source<>destination chain.
-- Implement upgradability.
-- Make all contracts have the same addresses on all EVM compatible chains.
-- Require manual approver for certain thresholds (where a multisig of the issuer approves each transaction in that threshold).
+X - Use all 3 message passing protocols.
+LATER - Implement bucket level rate limiting based on source<>destination chain.
+LATER - Implement upgradability.
+LATER - Make all contracts have the same addresses on all EVM compatible chains.
+NO - Require manual approver for certain thresholds (where a multisig of the issuer approves each transaction in that threshold).
 
 ## Extra
 
