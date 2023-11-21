@@ -3,14 +3,17 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@layerzerolabs/solidity-examples/contracts/token/oft/OFT.sol";
+import "@layerzerolabs/solidity-examples/contracts/token/oft/v1/OFT.sol";
 
 /**
  * @title RWAToken
  * @author Mihailo Maksa
- * @notice Simple ERC20 token representing a real world asset (RWA)
+ * @notice Simple ERC20 token representing a tokenized real world asset (RWA)
  */
 contract RWAToken is Ownable, OFT, Pausable {
+  /// @notice The boolean flag that indicates whether this is the main chain or not
+  bool public isMain;
+
   /**
    * @notice The constructor for the RWAToken contract
    * @param _name string memory - Name of the token
@@ -20,49 +23,50 @@ contract RWAToken is Ownable, OFT, Pausable {
    * @param _initialSupplyOnMainChain uint256 - The initial supply of the token on the main chain
    * @dev The LayerZero endpoint cannot be the zero address
    * @dev The main chain ID cannot be zero
-   * @dev The initial supply value must be greater than zero
-  */
+   * @dev The initial supply on main chain must be greater than zero
+   */
   constructor(
-    string memory _name,
-    string memory _symbol,
-    uint256 _maxSupply, 
-    address _owner
-  ) ERC20(_name, _symbol) {
-    require(_maxSupply > 0, "MyERC20: Max supply must be greater than zero.");
-    require(_owner != address(0), "MyERC20: Owner cannot be the zero address.");
+    string memory _name, 
+    string memory _symbol, 
+    address _lzEndpoint, 
+    uint16 _mainChainId, 
+    uint256 _initialSupplyOnMainChain
+  )
+  Ownable(msg.sender)
+  OFT(_name, _symbol, _lzEndpoint) 
+  {
+    require(_lzEndpoint != address(0), "RWAToken::constructor: LayerZero endpoint cannot be the zero address.");
+    require(_mainChainId != 0, "RWAToken::constructor: Main chain ID cannot be zero.");
+    require(_initialSupplyOnMainChain > 0, "RWAToken::constructor: Initial supply of the token on the main chain must be greater than zero.");
 
-    maxSupply = _maxSupply;
-
-    _mint(_owner, maxSupply);
-
-    transferOwnership(_owner);
+    if (ILayerZeroEndpoint(_lzEndpoint).getChainId() == _mainChainId) {
+      isMain = true;
+      _mint(msg.sender, _initialSupplyOnMainChain);
+    }
   }
 
   /**
-   * @notice Burns the specified `amount` of tokens from the caller's balance
+   * @notice Mints the specified amount of tokens from the caller's balance
    * @param _amount uint256 - The amount of tokens to burn
-   * @dev The caller cannot burn zero tokens
-   * @dev The caller must have at least the `_amount` of tokens in their balance
-   * @dev The total supply of tokens will be reduced by the `_amount`
+   * @dev The caller cannot mint zero tokens
    */
   function mint(uint256 _amount) external whenNotPaused {
-    require(_amount > 0, "RWAToken: Cannot mint zero tokens.");
+    require(_amount > 0, "RWAToken::mint: Cannot mint zero tokens.");
 
     _mint(msg.sender, _amount);
   }
 
   /**
-   * @notice Burns the specified `amount` of tokens from the caller's balance
+   * @notice Burns the specified amount of tokens from the caller's balance
    * @param _amount uint256 - The amount of tokens to burn
    * @dev The caller cannot burn zero tokens
-   * @dev The caller must have at least the `_amount` of tokens in their balance
-   * @dev The total supply of tokens will be reduced by the `_amount`
+   * @dev The caller cannot burn more tokens than they have
    */
   function burn(uint256 _amount) external whenNotPaused {
-    require(_amount > 0, "MyERC20: Cannot burn zero tokens.");
+    require(_amount > 0, "RWAToken::burn: Cannot burn zero tokens.");
     require(
       balanceOf(msg.sender) >= _amount,
-      "MyERC20: Burn amount exceeds balance."
+      "RWAToken::burn: Burn amount exceeds balance."
     );
 
     _burn(msg.sender, _amount);
