@@ -14,6 +14,15 @@ X - The bridge must support multiple RWA ERC-20 tokens.
 X - The bridge must have a daily rate limit where no more tokens are minted if this limit is met.
 X - There should be extensive tests for the bridge.
 
+LAYERZERO --> snedFrom public function constraint???
+SAVE THIS README SOMEWHERE
+IMPLEMENT AXELAR & WORMHOLE
+TEST EVERYTHING
+MAYBE ADD SOME NICE TO HAVES: 
+    UPGRADEABILITY, SAME ADDRESSES ON TESTNETS ACROSS ALL EVM CHAINS, SOLANA WORMHOLE BRIDGE,
+DEPLOY EVERYTHING TO TESTNETS
+DOCUMENT EVERYTHING IN README
+
 ## Assumptions
 
 X - Issuer can solely mint tokens.
@@ -22,7 +31,7 @@ X - RWA tokens are simple ERC20 tokens with mint and burn.
 ## Nice to Have
 
 X - Use all 3 message passing protocols.
-LATER - Implement bucket level rate limiting based on source<>destination chain.
+NO - Implement bucket level rate limiting based on source<>destination chain.
 LATER - Implement upgradability.
 LATER - Make all contracts have the same addresses on all EVM compatible chains.
 NO - Require manual approver for certain thresholds (where a multisig of the issuer approves each transaction in that threshold).
