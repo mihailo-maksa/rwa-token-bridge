@@ -44,14 +44,36 @@ const config: HardhatUserConfig = {
       url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
     },
+    arbitrum: {
+      url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
+    },
+    arbitrumGoerli: {
+      url: `https://arbitrum-goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
+    },
+    bsc: {
+      url: `https://bsc-dataseed.bnbchain.org`,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
+    },
+    bscTestnet: {
+      url: `https://data-seed-prebsc-1-s1.bnbchain.org:8545`,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY as string],
+    },
   },
   etherscan: {
-    mainnet: process.env.ETHERSCAN_API_KEY as string,
-    goerli: process.env.ETHERSCAN_API_KEY as string,
-    sepolia: process.env.ETHERSCAN_API_KEY as string,
-    polygon: process.env.POLYGONSCAN_API_KEY as string,
-    polygonMumbai: process.env.POLYGONSCAN_API_KEY as string,
-  } as unknown as any,
+    apiKey: {
+      mainnet: process.env.ETHERSCAN_API_KEY as string,
+      goerli: process.env.ETHERSCAN_API_KEY as string,
+      sepolia: process.env.ETHERSCAN_API_KEY as string,
+      polygon: process.env.POLYGONSCAN_API_KEY as string,
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY as string,
+      arbitrumOne: process.env.ARBISCAN_API_KEY as string,
+      arbitrumGoerli: process.env.ARBISCAN_API_KEY as string,
+      bsc: process.env.BSCSCAN_API_KEY as string,
+      bscTestnet: process.env.BSCSCAN_API_KEY as string,
+    },
+  },
   gasReporter: {
     enabled: true,
     currency: "USD",

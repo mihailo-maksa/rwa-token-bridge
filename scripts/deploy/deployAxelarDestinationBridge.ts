@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import args from "./argsAxelarDestinationBridge";
+import args from "../args/argsAxelarDestinationBridge";
 
 async function main() {
   const axelarDestinationBridge = await ethers.deployContract(

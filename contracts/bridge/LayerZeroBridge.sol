@@ -9,7 +9,7 @@ import "../interfaces/IRWATokenOFT.sol";
 
 /**
  * @title LayerZeroBridge
- * @author Mihailo Maksa 
+ * @author Mihailo Maksa
  * @notice LayerZero bridge demo for bridging real world assets (RWA) cross-chain
  */
 contract LayerZeroBridge is Ownable, Pausable {
@@ -78,7 +78,10 @@ contract LayerZeroBridge is Ownable, Pausable {
     uint256[] memory _maxTransferSizes,
     uint256[] memory _dailyLimits
   ) Ownable(_owner) {
-    require(_tokens.length > 0, "AxelarSourceBridge::constructor: The number of tokens must be greater than zero.");
+    require(
+      _tokens.length > 0,
+      "AxelarSourceBridge::constructor: The number of tokens must be greater than zero."
+    );
     require(
       _tokens.length == _maxTransferSizes.length &&
         _tokens.length == _dailyLimits.length,
@@ -278,7 +281,10 @@ contract LayerZeroBridge is Ownable, Pausable {
    */
   function rescueTokens(address _token) external onlyOwner {
     uint256 balance = IERC20(_token).balanceOf(address(this));
-    require(IERC20(_token).transfer(owner(), balance), "LayerZeroBridge::rescueTokens: ERC20 transfer failed");
+    require(
+      IERC20(_token).transfer(owner(), balance),
+      "LayerZeroBridge::rescueTokens: ERC20 transfer failed"
+    );
   }
 
   /**
@@ -308,10 +314,7 @@ contract LayerZeroBridge is Ownable, Pausable {
       supportedTokens[token] == true,
       "LayerZeroBridge::bridge: Token is not supported by the bridge."
     );
-    require(
-      msg.value > 0,
-      "LayerZeroBridge::bridge: Cannot send zero gas."
-    );
+    require(msg.value > 0, "LayerZeroBridge::bridge: Cannot send zero gas.");
     require(
       _recipient != address(0),
       "LayerZeroBridge::bridge: Recipient cannot be the zero address."
@@ -344,10 +347,21 @@ contract LayerZeroBridge is Ownable, Pausable {
 
     dailyTransferred[token] += _amount;
 
-    token.sendFrom{value: msg.value}(
+    bytes memory recipient = abi.encodePacked(_recipient);
+    uint256 nativeFee;
+
+    (nativeFee, ) = token.estimateSendFee(
+      _dstChainId,
+      recipient,
+      _amount,
+      false,
+      bytes("")
+    );
+
+    token.sendFrom{value: nativeFee}(
       msg.sender,
       _dstChainId,
-      abi.encodePacked(_recipient),
+      recipient,
       _amount,
       payable(msg.sender),
       address(0),

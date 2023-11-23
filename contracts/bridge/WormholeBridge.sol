@@ -8,7 +8,7 @@ import "../interfaces/IRWAToken.sol";
 
 /**
  * @title Wormhole Bridge
- * @author Mihailo Maksa 
+ * @author Mihailo Maksa
  * @notice Wormhole bridge demo for bridging real world assets (RWA) cross-chain
  */
 contract WormholeBridge is Ownable, Pausable {

@@ -1,10 +1,10 @@
 import { ethers } from "hardhat";
-import args from "./argsRWAToken";
+import args from "../args/argsRWATokenOFT";
 
 async function main() {
-  const rwaToken = await ethers.deployContract("RWAToken", args);
-  await rwaToken.waitForDeployment();
-  console.log(`LayerZero RWAToken deployed to ${rwaToken.target}`);
+  const rwaTokenOFT = await ethers.deployContract("RWATokenOFT", args);
+  await rwaTokenOFT.waitForDeployment();
+  console.log(`LayerZero RWATokenOFT deployed to ${rwaTokenOFT.target}`);
 }
 
 main().catch((error) => {

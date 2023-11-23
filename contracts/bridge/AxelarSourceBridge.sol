@@ -6,13 +6,13 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
 import "@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGateway.sol";
 import "@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGasService.sol";
-import { AddressToString } from "@axelar-network/axelar-gmp-sdk-solidity/contracts/libs/AddressString.sol";
+import {AddressToString} from "@axelar-network/axelar-gmp-sdk-solidity/contracts/libs/AddressString.sol";
 
 import "../interfaces/IRWAToken.sol";
 
 /**
  * @title AxelarSourceBridge
- * @author Mihailo Maksa 
+ * @author Mihailo Maksa
  * @notice Axelar source bridge demo for bridging real world assets (RWA) cross-chain
  */
 contract AxelarSourceBridge is Ownable, Pausable {
@@ -58,7 +58,10 @@ contract AxelarSourceBridge is Ownable, Pausable {
   );
 
   /// @notice An event emitted when a destination chain is removed from the list of supported destination chains by the bridge
-  event DestinationChainRemoved(string indexed destinationChain, uint256 timestamp);
+  event DestinationChainRemoved(
+    string indexed destinationChain,
+    uint256 timestamp
+  );
 
   /// @notice An event emitted when a token is added to the list of supported tokens by the bridge
   event TokenAdded(IRWAToken indexed token, uint256 timestamp);
@@ -118,7 +121,10 @@ contract AxelarSourceBridge is Ownable, Pausable {
       _axelarGasService != address(0),
       "AxelarSourceBridge::constructor: Axelar gas service cannot be the zero address."
     );
-    require(_tokens.length > 0, "AxelarSourceBridge::constructor: The number of tokens must be greater than zero.");
+    require(
+      _tokens.length > 0,
+      "AxelarSourceBridge::constructor: The number of tokens must be greater than zero."
+    );
     require(
       _tokens.length == _maxTransferSizes.length &&
         _tokens.length == _dailyLimits.length,
@@ -171,8 +177,14 @@ contract AxelarSourceBridge is Ownable, Pausable {
     string calldata _destinationChain,
     address _bridgeAddress
   ) external onlyOwner {
-    dstChainToBridge[_destinationChain] = AddressToString.toString(_bridgeAddress);
-    emit DestinationChainAdded(_destinationChain, _bridgeAddress, block.timestamp);
+    dstChainToBridge[_destinationChain] = AddressToString.toString(
+      _bridgeAddress
+    );
+    emit DestinationChainAdded(
+      _destinationChain,
+      _bridgeAddress,
+      block.timestamp
+    );
   }
 
   /**
@@ -182,7 +194,9 @@ contract AxelarSourceBridge is Ownable, Pausable {
    * @dev The destination chain cannot be the empty string
    * @dev The destination chain must be already supported by the bridge
    */
-  function removeDestinationChain(string calldata _destinationChain) external onlyOwner {
+  function removeDestinationChain(
+    string calldata _destinationChain
+  ) external onlyOwner {
     delete dstChainToBridge[_destinationChain];
     emit DestinationChainRemoved(_destinationChain, block.timestamp);
   }
@@ -350,7 +364,10 @@ contract AxelarSourceBridge is Ownable, Pausable {
    */
   function rescueTokens(address _token) external onlyOwner {
     uint256 balance = IERC20(_token).balanceOf(address(this));
-    require(IERC20(_token).transfer(owner(), balance), "AxelarSourceBridge::rescueTokens: ERC20 transfer failed");
+    require(
+      IERC20(_token).transfer(owner(), balance),
+      "AxelarSourceBridge::rescueTokens: ERC20 transfer failed"
+    );
   }
 
   /**
@@ -367,7 +384,11 @@ contract AxelarSourceBridge is Ownable, Pausable {
    * @dev User must approve the contract to spend at least the amount of tokens to be transferred
    * @dev Emits a {BridgeInitiated} event
    */
-  function initiateBridge(address _token, uint256 _amount, string calldata _destinationChain) external payable whenNotPaused {
+  function initiateBridge(
+    address _token,
+    uint256 _amount,
+    string calldata _destinationChain
+  ) external payable whenNotPaused {
     IRWAToken token = IRWAToken(_token);
 
     require(
@@ -387,7 +408,9 @@ contract AxelarSourceBridge is Ownable, Pausable {
       "AxelarSourceBridge::initiateBridge: Amount to be transferred is greater than the maximum transfer size."
     );
 
-    string memory destinationBridgeAddress = dstChainToBridge[_destinationChain];
+    string memory destinationBridgeAddress = dstChainToBridge[
+      _destinationChain
+    ];
     require(
       bytes(destinationBridgeAddress).length > 0,
       "AxelarSourceBridge::initiateBridge: Destination chain is not supported by the bridge."
@@ -414,24 +437,26 @@ contract AxelarSourceBridge is Ownable, Pausable {
       nonce++
     );
 
-    _payGasAndCallContract(_destinationChain, destinationBridgeAddress, payload);
-    
-    emit BridgeInitiated(
-      msg.sender, 
-      nonce - 1,
-      CHAIN_ID,
-      VERSION,
-      _amount
+    _payGasAndCallContract(
+      _destinationChain,
+      destinationBridgeAddress,
+      payload
     );
+
+    emit BridgeInitiated(msg.sender, nonce - 1, CHAIN_ID, VERSION, _amount);
   }
 
   /**
    * @notice A private helper function for paying gas and calling the AxelarGateway contract
-    * @param _destinationChain string - The destination chain of the bridge transaction
-    * @param _destinationBridgeAddress string - The address of the bridge contract on the destination chain
-    * @param _payload bytes - The payload of the bridge transaction
+   * @param _destinationChain string - The destination chain of the bridge transaction
+   * @param _destinationBridgeAddress string - The address of the bridge contract on the destination chain
+   * @param _payload bytes - The payload of the bridge transaction
    */
-  function _payGasAndCallContract(string calldata _destinationChain, string memory _destinationBridgeAddress, bytes memory _payload) private {
+  function _payGasAndCallContract(
+    string calldata _destinationChain,
+    string memory _destinationBridgeAddress,
+    bytes memory _payload
+  ) private {
     axelarGasService.payNativeGasForContractCall{value: msg.value}(
       address(this),
       _destinationChain,
@@ -440,6 +465,10 @@ contract AxelarSourceBridge is Ownable, Pausable {
       msg.sender
     );
 
-    axelarGateway.callContract(_destinationChain, _destinationBridgeAddress, _payload);
+    axelarGateway.callContract(
+      _destinationChain,
+      _destinationBridgeAddress,
+      _payload
+    );
   }
 }

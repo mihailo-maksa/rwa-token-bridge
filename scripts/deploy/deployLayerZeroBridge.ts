@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import args from "./argsLayerZeroBridge";
+import args from "../args/argsLayerZeroBridge";
 
 async function main() {
   const layerZeroBridge = await ethers.deployContract("LayerZeroBridge", args);
