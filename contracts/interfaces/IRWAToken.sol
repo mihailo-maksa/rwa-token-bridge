@@ -10,6 +10,7 @@ import "@openzeppelin/contracts/interfaces/IERC20.sol";
  */
 interface IRWAToken is IERC20 {
   function mint(uint256 _amount) external;
+  function mintTo(address _receiver, uint256 _amount) external;
   function burn(uint256 _amount) external;
   function burnFrom(address _spender, uint256 _amount) external;
 }

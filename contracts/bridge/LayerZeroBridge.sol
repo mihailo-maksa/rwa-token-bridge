@@ -277,7 +277,7 @@ contract LayerZeroBridge is Ownable, Pausable {
 
   /**
    * @notice Admin function used to rescue ERC20 Tokens sent to the contract
-   * @param _token The address of the token to rescue
+   * @param _token address - The address of the token to rescue
    */
   function rescueTokens(address _token) external onlyOwner {
     uint256 balance = IERC20(_token).balanceOf(address(this));

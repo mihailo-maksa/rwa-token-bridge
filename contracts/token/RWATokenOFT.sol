@@ -7,7 +7,7 @@ import "@layerzerolabs/solidity-examples/contracts/token/oft/v1/OFT.sol";
 /**
  * @title RWAToken
  * @author Mihailo Maksa
- * @notice Simple ERC20 token representing a tokenized real world asset (RWA) for the LayerZero bridge demo
+ * @notice Simple OFT (omnichain fungible token) ERC20 token representing a tokenized real world asset (RWA) for the LayerZero bridge demo
  */
 contract RWATokenOFT is Ownable, OFT {
   /**
