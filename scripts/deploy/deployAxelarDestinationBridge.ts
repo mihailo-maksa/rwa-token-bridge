@@ -8,7 +8,7 @@ async function main() {
   );
   await axelarDestinationBridge.waitForDeployment();
   console.log(
-    `AxelarDestinationBridge deployed to ${axelarDestinationBridge.target}`,
+    `AxelarDestinationBridge deployed to: ${axelarDestinationBridge.target}`,
   );
 }
 

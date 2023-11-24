@@ -7,7 +7,7 @@ async function main() {
     args,
   );
   await axelarSourceBridge.waitForDeployment();
-  console.log(`AxelarSourceBridge deployed to ${axelarSourceBridge.target}`);
+  console.log(`AxelarSourceBridge deployed to: ${axelarSourceBridge.target}`);
 }
 
 main().catch((error) => {

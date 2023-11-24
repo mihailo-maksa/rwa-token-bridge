@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
  * @notice Simple ERC20 token representing a tokenized real world asset (RWA) for the Axelar and Wormhole bridge demos
  */
 contract RWAToken is Ownable, ERC20Burnable {
-  /// @notice Address of the bridge contract
+  /// @notice Address of the bridge contract allowed to mint tokens
   address public bridge;
 
   /// @notice An event emitted when bridge contract address is set

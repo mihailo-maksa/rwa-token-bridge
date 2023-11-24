@@ -125,10 +125,10 @@ contract AxelarDestinationBridge is AxelarExecutable, Ownable, Pausable {
 
   /**
    * @notice Admin function that will add support for a new token
-    * @param srcChain string calldata - The address of the token to add
-    * @param srcContractAddress string calldata - The address of the token to add
-    * @dev Source chain cannot be empty
-    * @dev Source contract address cannot be empty
+   * @param srcChain string calldata - The address of the token to add
+   * @param srcContractAddress string calldata - The address of the token to add
+   * @dev Source chain cannot be empty
+   * @dev Source contract address cannot be empty
    */
   function addChainSupport(
     string calldata srcChain,
@@ -150,17 +150,10 @@ contract AxelarDestinationBridge is AxelarExecutable, Ownable, Pausable {
 
   /**
    * @notice Admin function that will remove support for a token
-    * @param srcChain string calldata - The address of the token to remove
-    * @dev Source chain must exist
+   * @param srcChain string calldata - The address of the token to remove
    */
   function removeChainSupport(string calldata srcChain) external onlyOwner {
-    require(
-      !areStringsEqual(srcChainToSrcBridge[srcChain], ""),
-      "AxelarDestinationBridge::removeChainSupport: Source chain does not exist."
-    );
-
     delete srcChainToSrcBridge[srcChain];
-
     emit ChainSupportRemoved(srcChain, block.timestamp);
   }
 
@@ -194,9 +187,9 @@ contract AxelarDestinationBridge is AxelarExecutable, Ownable, Pausable {
 
   /**
    * @notice Internal function used to check if two strings are equal
-    * @param str1 string memory - The first string to compare
-    * @param str2 string memory - The second string to compare
-    * @return bool - Whether the two strings are equal
+   * @param str1 string memory - The first string to compare
+   * @param str2 string memory - The second string to compare
+   * @return bool - Whether the two strings are equal
    */
   function areStringsEqual(
     string memory str1,

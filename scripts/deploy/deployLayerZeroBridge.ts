@@ -4,7 +4,7 @@ import args from "../args/argsLayerZeroBridge";
 async function main() {
   const layerZeroBridge = await ethers.deployContract("LayerZeroBridge", args);
   await layerZeroBridge.waitForDeployment();
-  console.log(`LayerZeroBridge deployed to ${layerZeroBridge.target}`);
+  console.log(`LayerZeroBridge deployed to: ${layerZeroBridge.target}`);
 }
 
 main().catch((error) => {
