@@ -306,9 +306,6 @@ describe("LayerZero bridge smart contract system", function () {
       ).to.be.reverted;
     });
 
-    // fail when: zero msg.value, zero amount, zero address as recipient, chain id is zero, allowance less than amount transferred,
-    // amount larger than max transfer size, surpassing the daily transfer limit,
-
     it("Should approve the bridge to spend 1000 tokens", async function () {
       await rwaTokenOFTBsc.approve(
         layerZeroBridgeBsc.getAddress(),
