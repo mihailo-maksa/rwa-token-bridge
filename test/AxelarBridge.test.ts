@@ -286,7 +286,41 @@ describe("Axelar Bridge smart contract system", function () {
       expect(await axelarDestinationBridgeArb.paused()).to.be.equal(false);
     });
 
-    it("Should mint some arb tokens to owner for testing", async function () {
+    it("Should add support for the bsc token on the arb destination bridge", async function () {
+      await axelarDestinationBridgeArb.addSupportedToken(
+        rwaTokenBsc.getAddress(),
+      );
+
+      expect(
+        await axelarDestinationBridgeArb.supportedTokens(
+          rwaTokenBsc.getAddress(),
+        ),
+      ).to.be.equal(true);
+    });
+
+    it("Should add support for an additional token on the arb destination bridge and then remove it", async function () {
+      await axelarDestinationBridgeArb.addSupportedToken(
+        additionalToken.getAddress(),
+      );
+
+      expect(
+        await axelarDestinationBridgeArb.supportedTokens(
+          additionalToken.getAddress(),
+        ),
+      ).to.be.equal(true);
+
+      await axelarDestinationBridgeArb.removeSupportedToken(
+        additionalToken.getAddress(),
+      );
+
+      expect(
+        await axelarDestinationBridgeArb.supportedTokens(
+          additionalToken.getAddress(),
+        ),
+      ).to.be.equal(false);
+    });
+
+    it("Should mint some rwa tokens on arb tokens to owner for testing", async function () {
       await rwaTokenArb.mint(ethers.parseEther("1000000"));
     });
 
@@ -307,6 +341,6 @@ describe("Axelar Bridge smart contract system", function () {
       ).to.be.equal(ethers.parseEther("0"));
     });
 
-    // _execute was also only able to be tested on the actual public testnet (Examples can be found in the transaction history here: https://testnet.bscscan.com/address/0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d)
+    // _execute was also only able to be tested on the actual public testnet (Examples can be found in the transaction history here: https://testnet.arbiscan.io/address/0xE72a76a5A8310a3613c4d6A59dBaCcd2fA387CAD)
   });
 });

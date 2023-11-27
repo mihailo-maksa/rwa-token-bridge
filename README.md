@@ -2,7 +2,7 @@
 
 ## **Overview**
 
-The system is purpose-built to support bridging any RWA (real world asset) ERC20 tokens from any supported EVM chain to any other supported EVM chain. To do this, protocols such as Axelar and LayerZero were used, since we didn't want to develop the functionality for general message passing across blockchains natively. The system consists of the following components:
+**The system is purpose-built to support bridging any RWA (real world asset) ERC20 tokens from any supported EVM chain to any other supported EVM chain.** To do this, protocols such as Axelar and LayerZero were used, since we didn't want to develop the functionality for general message passing across blockchains natively. The system consists of the following components:
 
 1. **LayerZero Bridge Smart Contract System:**
    1. **`RWATokenOFT`:** Simple OFT (omnichain fungible token) ERC20 token representing a tokenized real world asset (RWA) for the LayerZero bridge.

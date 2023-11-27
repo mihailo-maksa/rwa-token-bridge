@@ -45,6 +45,12 @@ contract AxelarDestinationBridge is AxelarExecutable, Ownable, Pausable {
   /// @notice An event emitted when a chain is removed from the bridge
   event ChainSupportRemoved(string indexed srcChain, uint256 timestamp);
 
+  /// @notice An even emitted when a supported token is added to the bridge
+  event TokenSupportAdded(address indexed token, uint256 timestamp);
+
+  /// @notice An event emitted when a supported token is removed from the bridge
+  event TokenSupportRemoved(address indexed token, uint256 timestamp);
+
   /// @notice An event emitted when a bridge transfer is completed
   event BridgeCompleted(
     address indexed token,
@@ -155,6 +161,52 @@ contract AxelarDestinationBridge is AxelarExecutable, Ownable, Pausable {
   function removeChainSupport(string calldata srcChain) external onlyOwner {
     delete srcChainToSrcBridge[srcChain];
     emit ChainSupportRemoved(srcChain, block.timestamp);
+  }
+
+  /**
+   * @notice Admin function that will add support for a new token
+   * @param _token address - The address of the token to add
+   * @dev Token address cannot be the zero address
+   * @dev Token cannot already be supported by the bridge
+   */
+  function addSupportedToken(address _token) external onlyOwner {
+    IRWAToken token = IRWAToken(_token);
+
+    require(
+      token != IRWAToken(address(0)),
+      "AxelarDestinationBridge::addSupportedToken: Token cannot be the zero address."
+    );
+    require(
+      !supportedTokens[token],
+      "AxelarDestinationBridge::addSupportedToken: Token already supported by the bridge."
+    );
+
+    supportedTokens[token] = true;
+
+    emit TokenSupportAdded(_token, block.timestamp);
+  }
+
+  /**
+   * @notice Admin function that will remove support for a token
+   * @param _token address - The address of the token to remove
+   * @dev Token address cannot be the zero address
+   * @dev Token must be supported by the bridge
+   */
+  function removeSupportedToken(address _token) external onlyOwner {
+    IRWAToken token = IRWAToken(_token);
+
+    require(
+      token != IRWAToken(address(0)),
+      "AxelarDestinationBridge::removeSupportedToken: Token cannot be the zero address."
+    );
+    require(
+      supportedTokens[token],
+      "AxelarDestinationBridge::removeSupportedToken: Token not supported by the bridge."
+    );
+
+    supportedTokens[token] = false;
+
+    emit TokenSupportRemoved(_token, block.timestamp);
   }
 
   /**

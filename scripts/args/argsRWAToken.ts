@@ -4,7 +4,7 @@
 // axelarGateway: 0x4D147dCb984e6affEEC47e44293DA442580A3Ec0
 // axelarGasService: 0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6
 // AxelarSourceBridge: 0x91C0bFfD5451132ceb8156f32f935581B5F1B78F
-// AxelarDestinationBridge: 0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d
+// AxelarDestinationBridge: 0x9d9eEaC5Db74d596A40036Ba72CEe5c1c6EfA6b1 (old: 0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d)
 
 // Arbitrum Goerli
 // Chain Name: arbitrum
@@ -12,7 +12,7 @@
 // axelarGateway: 0xe432150cce91c13a887f7D836923d5597adD8E31
 // axelarGasService: 0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6
 // AxelarSourceBridge: 0x91C0bFfD5451132ceb8156f32f935581B5F1B78F
-// AxelarDestinationBridge: 0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d
+// AxelarDestinationBridge: 0xE72a76a5A8310a3613c4d6A59dBaCcd2fA387CAD (old: 0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d)
 
 // Polygon Mumbai
 // Chain Name: Polygon
@@ -20,7 +20,7 @@
 // axelarGateway: 0xBF62ef1486468a6bd26Dd669C06db43dEd5B849B
 // axelarGasService: 0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6
 // AxelarSourceBridge: 0x91C0bFfD5451132ceb8156f32f935581B5F1B78F
-// AxelarDestinationBridge: 0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d
+// AxelarDestinationBridge: 0xc47Cc7d83A74693E60117bD0000fb76DFC3FDe3A (old: 0x0FFABc97C6ad8D69Da45AE5F5a11017ac0962F3d)
 
 export default [
   "0x2c16fF5e4de2F7B8c29593E9eb9FcfE5d9a10744", // owner
